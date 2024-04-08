@@ -15,9 +15,6 @@ const bs58 = require("bs58");
 
 async function fundWallet(receiverPublicAddress, solAmountToFund) {
   if (Number(solAmountToFund) <= 0) {
-    console.log(
-      `⛔️ Skipped funding SOL: ${solAmountToFund} to wallet: ${receiverPublicAddress}`
-    );
     return;
   }
 
