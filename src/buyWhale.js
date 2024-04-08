@@ -48,7 +48,7 @@ async function buyWhale(receiverWalletPrivateKey, solAmountToSwap) {
     SWAP_CONFIG_TO_BUY_WHALE.tokenBAddress,
     Number(solAmountToSwap),
     poolInfo,
-    Number(process.env.TRANSACTION_PRIORITY_FEE_IN_LAMPORTS),
+    Number(process.env.TRANSACTION_PRIORITY_FEE_IN_LAMPORTS_FOR_SWAP),
     SWAP_CONFIG_TO_BUY_WHALE.useVersionedTransaction,
     SWAP_CONFIG_TO_BUY_WHALE.direction
   );

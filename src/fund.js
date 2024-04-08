@@ -34,7 +34,9 @@ async function fundWallet(receiverPublicAddress, solAmountToFund) {
     );
     // Add some LAMPORTS for PRIORITY FEE
     const addPriorityFee = ComputeBudgetProgram.setComputeUnitPrice({
-      microLamports: Number(process.env.TRANSACTION_PRIORITY_FEE_IN_LAMPORTS),
+      microLamports: Number(
+        process.env.TRANSACTION_PRIORITY_FEE_IN_LAMPORTS_FOR_FUND
+      ),
     });
 
     // Build transaction
