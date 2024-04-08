@@ -9,6 +9,7 @@ import {
   SystemProgram,
   Transaction,
   sendAndConfirmTransaction,
+  ComputeBudgetProgram,
 } from "@solana/web3.js";
 const bs58 = require("bs58");
 
@@ -24,14 +25,23 @@ async function fundWallet(receiverPublicAddress, solAmountToFund) {
   receiverPublicAddress = new PublicKey(receiverPublicAddress);
 
   // Create RPC Connection
-  const connection = new Connection(process.env.RPC_URL, "confirmed");
+  const connection = new Connection(process.env.QUICKNODE_RPC_URL, "confirmed"); // Only quick node can fund
 
   // Create Secret Array to Sign transaction
   let secretKey = bs58.decode(process.env.MASTER_WALLET_PRIVATE_KEY);
   const SIGNER = Keypair.fromSecretKey(new Uint8Array(secretKey));
 
   try {
-    const transaction = new Transaction().add(
+    console.log(
+      `🚀 Funding SOL: ${solAmountToFund} to wallet: ${receiverPublicAddress}. Please wait...........`
+    );
+    // Add some LAMPORTS for PRIORITY FEE
+    const addPriorityFee = ComputeBudgetProgram.setComputeUnitPrice({
+      microLamports: Number(process.env.TRANSACTION_PRIORITY_FEE_IN_LAMPORTS),
+    });
+
+    // Build transaction
+    const transaction = new Transaction().add(addPriorityFee).add(
       SystemProgram.transfer({
         fromPubkey: SIGNER.publicKey,
         toPubkey: receiverPublicAddress,
